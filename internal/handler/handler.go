@@ -6,6 +6,7 @@ import (
 	"net/http"
 
 	"github.com/aws/aws-lambda-go/events"
+	"github.com/fre5h/rnokpp"
 
 	"github.com/fre5h/rnokpp-telegram-bot/internal/model"
 )
@@ -46,11 +47,11 @@ func createLambdaResponse(statusCode int, body string) (events.LambdaFunctionURL
 func prepareResult(text string) (result string) {
 	switch text {
 	case "":
-		result = "🤔 Вибачайте, але я вмію транслітерувати лише текстові повідомлення"
-	case "/start":
-		result = "Просто напишіть мені текст на українській мові 🇺🇦 і у відповідь отримаєте транслітерований 🇬🇧 текст"
+		result = "@todo"
+	case "/generate-random":
+		result, _ = rnokpp.GenerateRandomRnokpp()
 	default:
-		result = "123"
+		result = "@todo"
 	}
 
 	return result
