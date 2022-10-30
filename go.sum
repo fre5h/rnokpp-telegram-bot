@@ -1,0 +1,5 @@
+github.com/aws/aws-lambda-go v1.34.1 h1:M3a/uFYBjii+tDcOJ0wL/WyFi2550FHoECdPf27zvOs=
+github.com/aws/aws-lambda-go v1.34.1/go.mod h1:jwFe2KmMsHmffA1X2R09hH6lFzJQxzI8qK17ewzbQMM=
+github.com/fre5h/rnokpp v1.0.0/go.mod h1:rTRemSfxy51eeDO4rGuimzNnP87Q7TPFTvA7fFky92M=
+github.com/fre5h/transliteration-go v1.1.5 h1:8/KwpND1kvp+OZ2/mIIUK55aUsrH2rQYy4LARMeYpIo=
+github.com/fre5h/transliteration-go v1.1.5/go.mod h1:k28mtedGPtzC8cs6FnY86s6BUP0qwDy+oqyGwLQ8GBE=
