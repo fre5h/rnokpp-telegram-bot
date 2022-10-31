@@ -1,48 +1,49 @@
 package handler
 
 import (
+	"bytes"
+	"encoding/json"
 	"fmt"
+	"github.com/fre5h/rnokpp-telegram-bot/internal/model"
 	"io"
 	"log"
-	"net/url"
+	"net/http"
 	"os"
 	"strconv"
 )
 
 type TelegramClient interface {
-	SendTextMessageToChat(int, string) (string, error)
+	SendMessageToChat(int, model.SendMessage) (string, error)
 }
 
 type TelegramHttpClient struct {
-	baseUrl    string
-	token      string
-	httpClient HttpClient
+	baseUrl string
+	token   string
 }
 
-func NewTelegramHttpClient(httpClient HttpClient) *TelegramHttpClient {
+func NewTelegramHttpClient() *TelegramHttpClient {
 	return &TelegramHttpClient{
-		baseUrl:    "https://api.telegram.org/bot",
-		token:      os.Getenv("TELEGRAM_BOT_TOKEN"),
-		httpClient: httpClient,
+		baseUrl: "https://api.telegram.org/bot",
+		token:   os.Getenv("TELEGRAM_BOT_TOKEN"),
 	}
 }
 
-func (c TelegramHttpClient) SendTextMessageToChat(chatId int, text string) (string, error) {
+func (c TelegramHttpClient) SendMessageToChat(charId int, sendMessage model.SendMessage) (string, error) {
 	var botApiUrl = c.baseUrl + c.token + "/sendMessage"
 
-	response, err := c.httpClient.PostForm(
-		botApiUrl,
-		url.Values{
-			"chat_id": {strconv.Itoa(chatId)},
-			"text":    {text},
-		},
-	)
+	sendMessage.ChatId = strconv.Itoa(charId)
+
+	payload, _ := json.Marshal(sendMessage)
+	req, _ := http.NewRequest("POST", botApiUrl, bytes.NewBuffer(payload))
+	req.Header.Add("content-type", "application/json")
+
+	response, err := http.DefaultClient.Do(req)
 
 	if nil != err {
 		return "", fmt.Errorf("error when posting text to the chat: %s", err.Error())
 	}
 
-	if 200 != response.StatusCode {
+	if http.StatusOK != response.StatusCode {
 		return "", fmt.Errorf("status code of response is: %d", response.StatusCode)
 	}
 
@@ -56,7 +57,7 @@ func (c TelegramHttpClient) SendTextMessageToChat(chatId int, text string) (stri
 	var bodyBytes, errRead = io.ReadAll(response.Body)
 
 	if nil != errRead {
-		return "", fmt.Errorf("error on parsing telegram answer %s", errRead.Error())
+		return "", fmt.Errorf("error on parsing telegram response %s", errRead.Error())
 	}
 
 	return string(bodyBytes), nil

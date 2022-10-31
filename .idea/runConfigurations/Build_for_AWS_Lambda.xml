@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Build for AWS Lambda" type="MAKEFILE_TARGET_RUN_CONFIGURATION" factoryName="Makefile">
-    <makefile filename="$PROJECT_DIR$/Makefile" target="aws_lambda" workingDirectory="" arguments="">
+    <makefile filename="$PROJECT_DIR$/../transliteration-telegram-bot/Makefile" target="aws_lambda" workingDirectory="$PROJECT_DIR$" arguments="">
       <envs />
     </makefile>
     <method v="2" />

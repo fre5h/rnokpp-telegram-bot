@@ -15,7 +15,7 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v3
         with:
-          go-version: 1.18
+          go-version: 1.20.1
 
       - name: Test
         run: go test -v ./...
@@ -29,7 +29,7 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v3
         with:
-          go-version: 1.18
+          go-version: 1.20.1
 
       - name: Build
         run: go build -v ./cmd/main.go
@@ -43,7 +43,7 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v3
         with:
-          go-version: 1.18
+          go-version: 1.20.1
 
       - name: Checkout code
         uses: actions/checkout@v3
@@ -51,7 +51,7 @@ jobs:
       - name: Lint
         uses: golangci/golangci-lint-action@v3
         with:
-          version: v1.50.0
+          version: latest
 
   code-coverage:
     needs: test
@@ -62,14 +62,13 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v3
         with:
-          go-version: 1.18
+          go-version: 1.20.1
 
       - name: Run test coverage
         run: go test -race -coverprofile=coverage.txt -covermode=atomic ./...
 
       - name: 'Upload to Codecov'
-        uses: codecov/codecov-action@v3
-        with:
-          files: ./coverage.txt
-          fail_ci_if_error: true
-          verbose: true
+        run: |
+          curl -Os https://uploader.codecov.io/latest/linux/codecov
+          chmod +x codecov
+          ./codecov -t ${CODECOV_TOKEN}
