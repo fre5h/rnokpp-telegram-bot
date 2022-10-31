@@ -48,7 +48,9 @@ func prepareResult(text string) (result string) {
 	switch text {
 	case "":
 		result = "@todo"
-	case "/generaterandom":
+	case "/random":
+		result, _ = rnokpp.GenerateRandomRnokpp()
+	case "/randomn":
 		result, _ = rnokpp.GenerateRandomRnokpp()
 	default:
 		result = "@todo"
