@@ -1,4 +1,4 @@
-BUILD_ENVS = GOARCH=amd64 GOOS=linux
+BUILD_ENVS = GOARCH=arm64 GOOS=linux
 
 aws_lambda:
-	${BUILD_ENVS} go build -o main cmd/main.go && zip archive.zip main
+	${BUILD_ENVS} go build -tags lambda.norpc -o bootstrap cmd/main.go && zip archive.zip bootstrap
