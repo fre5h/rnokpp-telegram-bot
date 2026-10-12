@@ -12,6 +12,7 @@ env:
 jobs:
   test:
     runs-on: ubuntu-latest
+    environment: CI
     steps:
       - uses: actions/checkout@v4
 
@@ -32,6 +33,7 @@ jobs:
   build:
     needs: test
     runs-on: ubuntu-latest
+    environment: CI
     steps:
       - uses: actions/checkout@v4
 
@@ -63,6 +65,7 @@ jobs:
 
   deploy:
     needs: [test, build]
+    environment: Amazon Lambda
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     permissions:
