@@ -49,12 +49,12 @@ func (h *LambdaHandler) HandleLambdaRequest(request events.LambdaFunctionURLRequ
 		return createLambdaResponse(http.StatusBadRequest, "Error on unmarshal json")
 	}
 
-	if 0 == update.UpdateID {
+	if update.UpdateID == 0 {
 		return createLambdaResponse(http.StatusBadRequest, "Update id of 0 indicates failure to parse incoming update")
 	}
 
 	chatID, reply := h.bot.Handle(update)
-	if nil == reply || 0 == chatID {
+	if reply == nil || chatID == 0 {
 		return createLambdaResponse(http.StatusOK, "OK")
 	}
 
@@ -68,13 +68,13 @@ func (h *LambdaHandler) HandleLambdaRequest(request events.LambdaFunctionURLRequ
 }
 
 func (h *LambdaHandler) authorized(headers map[string]string) bool {
-	if "" == h.webhookSecret {
+	if h.webhookSecret == "" {
 		return true
 	}
 
 	for name, value := range headers {
 		if strings.EqualFold(name, secretTokenHeader) {
-			return 1 == subtle.ConstantTimeCompare([]byte(value), []byte(h.webhookSecret))
+			return subtle.ConstantTimeCompare([]byte(value), []byte(h.webhookSecret)) == 1
 		}
 	}
 

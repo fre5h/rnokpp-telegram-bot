@@ -19,7 +19,7 @@ func main() {
 	}
 
 	webhookSecret := os.Getenv("TELEGRAM_WEBHOOK_SECRET")
-	if "" == webhookSecret {
+	if webhookSecret == "" {
 		log.Print("TELEGRAM_WEBHOOK_SECRET is not set, webhook requests are not authenticated")
 	}
 
