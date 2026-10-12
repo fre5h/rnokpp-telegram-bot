@@ -7,7 +7,7 @@ on:
     branches: [ main ]
 
 env:
-  GO_VERSION: "1.25"
+  GO_VERSION: "1.27"
 
 jobs:
   test:
@@ -16,7 +16,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Set up Go
-        uses: actions/setup-go@v5
+        uses: actions/setup-go@v7
         with:
           go-version: ${{ env.GO_VERSION }}
 
@@ -36,7 +36,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Set up Go
-        uses: actions/setup-go@v5
+        uses: actions/setup-go@v7
         with:
           go-version: ${{ env.GO_VERSION }}
 
@@ -52,11 +52,11 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Set up Go
-        uses: actions/setup-go@v5
+        uses: actions/setup-go@v7
         with:
           go-version: ${{ env.GO_VERSION }}
 
       - name: Lint
-        uses: golangci/golangci-lint-action@v9
+        uses: golangci/golangci-lint-action@v9.3.0
         with:
           version: v2.5.0
