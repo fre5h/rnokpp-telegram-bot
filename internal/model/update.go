@@ -1,7 +1,7 @@
 package model
 
 type Chat struct {
-	Id int `json:"id"`
+	ID int `json:"id"`
 }
 
 type ReplyToMessage struct {
@@ -16,14 +16,14 @@ type Message struct {
 }
 
 type CallbackQuery struct {
-	Id              string   `json:"id"`
+	ID              string   `json:"id"`
 	Data            *string  `json:"data,omitempty"`
 	Message         *Message `json:"message,omitempty"`
-	InlineMessageId *string  `json:"inline_message_id,omitempty"`
+	InlineMessageID *string  `json:"inline_message_id,omitempty"`
 }
 
 type Update struct {
-	UpdateId      int            `json:"update_id"`
+	UpdateID      int            `json:"update_id"`
 	Message       *Message       `json:"message,omitempty"`
 	CallbackQuery *CallbackQuery `json:"callback_query,omitempty"`
 }
