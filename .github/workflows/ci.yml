@@ -30,6 +30,24 @@ jobs:
           token: ${{ secrets.CODECOV_TOKEN }}
           files: coverage.txt
 
+  lint:
+    needs: test
+    runs-on: ubuntu-latest
+    env:
+      GOFLAGS: -mod=readonly
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v7
+        with:
+          go-version: ${{ env.GO_VERSION }}
+
+      - name: Lint
+        uses: golangci/golangci-lint-action@v9.3.0
+        with:
+          version: v2.14.0
+
   build:
     needs: test
     runs-on: ubuntu-latest
@@ -44,26 +62,8 @@ jobs:
       - name: Build
         run: go build -v ./cmd/main.go
 
-#  lint:
-#    needs: test
-#    runs-on: ubuntu-latest
-#    env:
-#      GOFLAGS: -mod=readonly
-#    steps:
-#      - uses: actions/checkout@v4
-#
-#      - name: Set up Go
-#        uses: actions/setup-go@v7
-#        with:
-#          go-version: ${{ env.GO_VERSION }}
-#
-#      - name: Lint
-#        uses: golangci/golangci-lint-action@v9.3.0
-#        with:
-#          version: v2.5.0
-
   deploy:
-    needs: [test, build]
+    needs: [test, lint, build]
     environment: amazon-lambda
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
