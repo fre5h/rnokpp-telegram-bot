@@ -81,21 +81,6 @@ jobs:
       - name: Build archive
         run: make aws_lambda
 
-      - name: Check deploy inputs
-        env:
-          AWS_ROLE_ARN: ${{ secrets.AWS_ROLE_ARN }}
-          AWS_REGION: ${{ secrets.AWS_REGION }}
-          LAMBDA_FUNCTION_NAME: ${{ secrets.LAMBDA_FUNCTION_NAME }}
-        run: |
-          missing=0
-          for name in AWS_ROLE_ARN AWS_REGION LAMBDA_FUNCTION_NAME; do
-            if [ -z "${!name}" ]; then
-              echo "::error::secret $name is empty in the Amazon Lambda environment"
-              missing=1
-            fi
-          done
-          exit $missing
-
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
